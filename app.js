@@ -73,6 +73,16 @@ function renderNodes(nodes) {
   }).join("");
 }
 
+function fallbackNodes(item) {
+  const from = points[item.from]?.name || item.route.split("→")[0]?.trim() || "出发地";
+  const to = points[item.to]?.name || item.rest || "抵达地";
+  return [
+    n("charge", from, "出发前补能"),
+    n("supply", item.rest, "餐食/补给"),
+    n("rest", to, "抵达休整"),
+  ];
+}
+
 function renderPlan(name) {
   const plan = plans[name];
   planKicker.textContent = plan.kicker;
@@ -85,13 +95,14 @@ function renderPlan(name) {
   timeline.innerHTML = plan.days.map((item) => {
     const [place, condition, temp, risk] = weather[item.date] || weather["机动"];
     const detail = ops[item.opKey];
+    const nodes = Array.isArray(detail.nodes) ? detail.nodes : fallbackNodes(item);
     return `<article class="day-card">
       <div class="day-visual"><img src="${detail.image}" alt="${item.route} 沿途景观" loading="lazy" /><div class="day-visual-shade"></div><div class="day-badge"><strong>${item.day}</strong><span>${item.date}</span></div><p>${detail.terrain}</p></div>
       <div class="day-content">
         <div class="day-title"><div><span class="section-kicker">Roadbook Segment</span><h3>${item.route}</h3></div><a class="nav-link" href="${amapNav(item.from, item.to)}" target="_blank" rel="noreferrer">导航</a></div>
         <p class="day-note">${item.note}</p>
         <div class="drive-meta"><span>${item.km}</span><span>${item.time}</span><span>休整：${item.rest}</span></div>
-        <div class="route-flow">${renderNodes(detail.nodes)}</div>
+        <div class="route-flow">${renderNodes(nodes)}</div>
         <div class="ops-grid">
           <section class="ops-panel weather-panel"><span>天气</span><strong>${place} · ${condition}</strong><small>${temp} · ${risk}</small></section>
           <section class="ops-panel budget-panel"><span>当日预算</span><strong>${detail.budget}</strong><small>${detail.charge}</small></section>
