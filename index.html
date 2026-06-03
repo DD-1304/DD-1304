@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>成都出发 · 奥迪 E5 Sportback 拉萨方向自驾路书</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin=""
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23060912'/%3E%3Ccircle cx='32' cy='32' r='18' fill='%2331f2d1'/%3E%3Cpath d='M20 35h24l-4 8H24z' fill='%23060912'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <span class="brand-dot"></span>
+        <span>AUDI E5 Sportback</span>
+      </div>
+      <span class="date-chip">6月5日 成都出发</span>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="aurora-orb orb-violet"></div>
+        <div class="aurora-orb orb-blue"></div>
+        <div class="aurora-orb orb-magenta"></div>
+        <div class="aurora-orb orb-teal"></div>
+        <div class="noise-overlay" aria-hidden="true"></div>
+
+        <div class="hero-card">
+          <p class="eyebrow">G318 进藏 · G317 回川 · 不原路返回</p>
+          <h1>成都往拉萨方向高原环线</h1>
+          <p class="hero-text">
+            为奥迪 E5 Sportback 准备的纯电川藏路线：先选节奏，再看地图路径、每日路书、天气和补能风险。
+          </p>
+          <div class="mode-switch" role="tablist" aria-label="路线入口">
+            <button class="mode-button active" type="button" role="tab" aria-selected="true" data-plan="tight">
+              <span>限定12天</span>
+              <small>必须回成都 · 强度高</small>
+            </button>
+            <button class="mode-button" type="button" role="tab" aria-selected="false" data-plan="relaxed">
+              <span>轻松游</span>
+              <small>不强制限定时间 · 体验优先</small>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="console">
+        <div class="console-head">
+          <div>
+            <span class="section-kicker" id="planKicker">12-Day Sprint</span>
+            <h2 id="planTitle">12天限定环线</h2>
+          </div>
+          <span class="fineprint" id="dayCount"></span>
+        </div>
+
+        <div class="console-grid">
+          <article class="summary-card">
+            <p id="planIntro"></p>
+            <div class="stat-grid" id="planStats"></div>
+            <div class="verdict" id="planVerdict"></div>
+          </article>
+
+          <article class="map-card">
+            <div class="map-head">
+              <div>
+                <span class="section-kicker">Real Map Path</span>
+                <h3>真实地图路径</h3>
+              </div>
+              <a class="map-link" id="overviewMapLink" href="#" target="_blank" rel="noreferrer">打开高德总览</a>
+            </div>
+            <div id="routeMap" class="route-map" aria-label="成都到拉萨方向环线地图"></div>
+            <div class="map-legend" aria-label="路线图例">
+              <span><i class="legend-charge"></i>快充</span>
+              <span><i class="legend-supply"></i>补给</span>
+              <span><i class="legend-scenic"></i>景观</span>
+              <span><i class="legend-rest"></i>休整</span>
+              <span><i class="legend-risk"></i>高反</span>
+            </div>
+            <p class="map-note">
+              地图使用真实经纬度节点绘制路线骨架；每日路书内用同一套图例标出补给、充电、景点和高反风险。
+            </p>
+          </article>
+        </div>
+
+        <div class="quick-strip">
+          <div>
+            <strong>费用口径</strong>
+            <span>每日按 2人1车估算，不含租车费和购物</span>
+          </div>
+          <div>
+            <strong>补能底线</strong>
+            <span>到县城前保留 25%-30% 电量，山口按 65%-70% 续航估算</span>
+          </div>
+          <div>
+            <strong>高反阈值</strong>
+            <span>头痛恶心、睡眠差或胸闷时，拆行程、下撤、必要时就医</span>
+          </div>
+        </div>
+
+        <div class="roadbook-head">
+          <div>
+            <span class="section-kicker">Daily Roadbook</span>
+            <h2>每日路书 · 费用 / 快充 / 高反并入</h2>
+          </div>
+          <span class="fineprint">距离、费用、门票和充电价格为路书估算</span>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="support-grid">
+        <article class="support-card priority-card">
+          <span class="section-kicker">Travel Ops</span>
+          <h2>每天出发前 5 分钟</h2>
+          <div class="dense-list compact">
+            <p><strong>1. 路况：</strong>导航重新算路，确认是否有塌方、管制、施工、临时绕行。</p>
+            <p><strong>2. 天气：</strong>重点看山口风、雨量、能见度，不只看城市晴雨。</p>
+            <p><strong>3. 电量：</strong>下一县城充电不确定时，当前县城补到 80% 以上再走。</p>
+            <p><strong>4. 身体：</strong>头痛、恶心、睡眠差时，不翻高海拔长段。</p>
+          </div>
+        </article>
+
+        <article class="support-card altitude-card">
+          <span class="section-kicker">Altitude Kit</span>
+          <h2>高反提前准备</h2>
+          <div class="dense-list">
+            <p><strong>提前准备：</strong>便携氧气、指夹血氧仪、电解质、布洛芬/对乙酰氨基酚、肠胃药、保温杯、防晒和润唇。</p>
+            <p><strong>用药提醒：</strong>乙酰唑胺等预防药需提前咨询医生，尤其有磺胺过敏、肾病或正在服药时。</p>
+            <p><strong>处理原则：</strong>症状轻就休息和补水；症状加重、走路不稳、持续胸闷或意识异常，停止上升并尽快就医/下撤。</p>
+          </div>
+        </article>
+
+        <article class="support-card">
+          <span class="section-kicker">EV Strategy</span>
+          <h2>奥迪 E5 Sportback 补能策略</h2>
+          <div class="dense-list">
+            <p><strong>每天出发：</strong>90%-100% 电量，跨高山/雨天按 CLTC 的 65%-70% 估算。</p>
+            <p><strong>优先补能点：</strong>康定、理塘/巴塘、芒康、左贡、波密、林芝、拉萨、那曲、昌都、甘孜、马尔康。</p>
+            <p><strong>租车确认：</strong>电池版本、充电峰值、轮胎、随车慢充线、充电 App 权限。</p>
+          </div>
+        </article>
+
+        <article class="support-card">
+          <span class="section-kicker">Highlights</span>
+          <h2>景点取舍逻辑</h2>
+          <div class="dense-list">
+            <p><strong>12天版：</strong>新都桥、理塘、然乌、鲁朗只短停；拉萨保留 1 个完整日，纳木错不建议强塞。</p>
+            <p><strong>轻松版：</strong>然乌/波密、林芝、拉萨、羊湖日喀则是体验核心；G317 回程预留机动。</p>
+            <p><strong>改线阈值：</strong>连续雨、晚到县城、充电异常、高反明显，直接拆分当天行程。</p>
+          </div>
+        </article>
+
+        <article class="support-card share-card">
+          <span class="section-kicker">Share</span>
+          <h2>手机分享方式</h2>
+          <div class="dense-list">
+            <p><strong>同一 Wi-Fi 预览：</strong>电脑启动本地服务后，手机打开电脑局域网 IP 地址。</p>
+            <p><strong>发给同行：</strong>用 GitHub Pages、Netlify 或 Vercel 部署整个文件夹，得到公网链接后直接微信/短信分享。</p>
+            <p><strong>手机浏览器：</strong>打开公网链接后点浏览器分享按钮，或使用下方按钮调用系统分享。</p>
+          </div>
+          <button class="share-button" type="button" id="shareButton">分享当前网页</button>
+          <button class="share-button secondary" type="button" id="copyButton">复制当前链接</button>
+          <p class="share-status" id="shareStatus"></p>
+        </article>
+      </section>
+
+      <footer class="sources">
+        <p>
+          距离、时长、费用、门票和路径为自驾路书估算，实际以当天导航、道路管制、塌方落石、充电站可用状态、酒店价格和景区公示为准。天气为 2026-06-03 查询的逐日预报，越往后不确定性越高。
+        </p>
+        <p>
+          车型参考：
+          <a href="https://www.saic-audi.cn/audi-e/models/e/e5_sportback.html">上汽奥迪 E5 Sportback 官方页</a>。
+          路线参考：
+          <a href="https://www.greattibettour.com/cn/tibet-travel-tips/sichuan-tibet-highway.html">G318 川藏南线</a>、
+          <a href="https://www.tibetcn.com/wenda/1890.html">G317/G318 里程说明</a>。
+          天气复核：
+          <a href="https://weather.com/">Weather.com</a>、
+          <a href="https://www.meteoblue.com/">meteoblue</a>。
+          高原健康参考：
+          <a href="https://wwwnc.cdc.gov/travel/page/travel-to-high-altitudes">CDC Yellow Book 高海拔旅行建议</a>。
+        </p>
+      </footer>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      crossorigin=""
+    ></script>
+    <script src="./data-core.js"></script>
+    <script src="./ops-data.js"></script>
+    <script src="./plans-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
